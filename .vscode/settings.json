@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "C:\\Users\\Hp\\envs\\first\\Scripts\\python.exe"
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django"
+    ]
+}

@@ -1,0 +1,32 @@
+{% extends "polls/base.html" %}
+{% block content %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ question.author.profile.image.url }}" alt="">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'polls:user-index' question.author.username %}">{{ question.author}}</a> 
+              <small class="text-muted">{{ question.pub_date|date:"F d, Y"}}</small>
+              {% if question.author == user %}
+                <div>
+                  <a class="btn btn-secondary btn-sm mt-1 mb-1"href="{% url 'polls:edit' question.id%}">Edit</a>
+                  <a class="btn btn-danger btn-sm mt-1 mb-1"href="{% url 'polls:delete' question.id%}">Delete</a>
+                </div>  
+              {% endif %}
+            
+              <h1>{{ question.question_text }}</h1>
+
+              {% if error_message %}<p><strong>{{ error_message}}</strong></p> {% endif %}
+              <form action="{% url 'polls:vote' question.id %}" method="post">
+              {% csrf_token %}
+              {% for choice in question.choice_set.all %}
+                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{choice.id}}" >
+                <label for="choice{{ forloop.counter }}">{{ choice.choice_text}}</label>
+              <br>    
+              {% endfor %} 
+              <input type="submit" value="Vote">
+              </form> 
+            </div>  
+          </div>
+        </article>
+  </body>
+  {% endblock content %}

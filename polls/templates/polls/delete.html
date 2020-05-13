@@ -1,0 +1,26 @@
+{% extends "polls/base.html"%}
+{% block content %}
+{%if request.user.is_authenticated and request.user == question.author %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Poll</legend>  
+                <h2> Are you sure you want to delete the poll "{{ question.question_text }}"</h2>  
+            </fieldset>
+            <div class="form-group"> 
+                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                <a class="ml-2" href="{% url 'polls:detail' question.id %}">Cancel</a>  
+                <!-- <button class="btn btn-outline-secondary" href="{% url 'polls:detail' question.id %}">Cancel</button> -->
+              
+            </div> 
+        </form> 
+{% endif %}
+
+    {%if request.user != question.author %}
+    <div class="content-section">
+        <h1>You cannot delete this Poll</h1>
+    </div>
+    {% endif %}        
+    </div>
+{% endblock content %}
